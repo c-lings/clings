@@ -4,7 +4,6 @@ project(clings C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(clings main.c
-        src/katas.h
         src/execution/execution.c
         src/execution/execution.h
         src/types/types.h

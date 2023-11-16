@@ -1,0 +1,6 @@
+exercises:
+  - name: intro
+    path: katas/intro.c
+
+  - name: success
+    path: katas/success.c

@@ -1,8 +1,22 @@
 #ifndef CLINGS_KATAS_H
 #define CLINGS_KATAS_H
 
+#include "../types/types.h"
 
-// TODO: extract this to yaml
+typedef struct Kata Kata;
+struct Kata {
+    sized_string_t name;
+    sized_string_t path;
+};
+
+typedef struct KataList KataList;
+struct KataList {
+    struct Kata * katas;
+    size_t len;
+};
+
+void free_kata_list(KataList *kata_list);
+
 static const char * kata_folder_path = "../katas/";
 
 static const char * kata_file_names[] = {

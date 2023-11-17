@@ -12,8 +12,11 @@ void push_kata_in_list(Kata kata, KataList *list);
 
 Kata no_kata();
 
+KataListParsingResult kata_list_parsing_error();
+
+bool yaml_parse_next(yaml_parser_t *parser, yaml_event_t *event);
+
 KataListParsingResult parse_kata_list(char *file_path) {
-    bool done = false;
     yaml_parser_t parser;
     yaml_event_t event;
 
@@ -22,23 +25,15 @@ KataListParsingResult parse_kata_list(char *file_path) {
     if(input == NULL) {
         return (KataListParsingResult) {
                 .success = false,
-                .error_message = "Failed to open yaml file"
+                .error_message = "Failed to open yaml file."
         };
     }
 
     yaml_parser_set_input_file(&parser, input);
-    KataList kata_list = {
-            .katas = NULL,
-            .len = 0
-    };
+    KataList kata_list = {.katas = NULL,.len = 0};
     while (true) {
-        if (!yaml_parser_parse(&parser, &event)) {
-            yaml_parser_delete(&parser);
-            return (KataListParsingResult) {
-                    .success = false,
-                    .error_message = "Failed to parse file info.yml"
-            };
-        }
+        if (!yaml_parse_next(&parser, &event)) return kata_list_parsing_error();
+
         if(event.type == YAML_STREAM_END_EVENT) break;
         if(event.type == YAML_SEQUENCE_START_EVENT) {
             while(event.type != YAML_STREAM_END_EVENT) {
@@ -55,6 +50,22 @@ KataListParsingResult parse_kata_list(char *file_path) {
     return (KataListParsingResult) {
             .success = true,
             .kata_list = kata_list
+    };
+}
+
+bool yaml_parse_next(yaml_parser_t *parser, yaml_event_t *event) {
+    bool success = yaml_parser_parse(parser, event);
+    if (!success) {
+        yaml_parser_delete(parser);
+        yaml_event_delete(event);
+    }
+    return success;
+}
+
+KataListParsingResult kata_list_parsing_error() {
+    return (KataListParsingResult) {
+            .success = false,
+            .error_message = "Failed to parse file info.yml"
     };
 }
 

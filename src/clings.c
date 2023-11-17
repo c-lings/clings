@@ -19,7 +19,7 @@ int clings() {
         }
     }
 
-    free_sized_string(result_buffer);
+    free_sized_string(&result_buffer);
 
     return EXIT_SUCCESS;
 }

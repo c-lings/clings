@@ -1,6 +1,8 @@
 #ifndef CLINGS_KATAS_H
 #define CLINGS_KATAS_H
 
+
+// TODO: extract this to yaml
 static const char * kata_folder_path = "../katas/";
 
 static const char * kata_file_names[] = {

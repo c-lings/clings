@@ -1,5 +1,3 @@
-
-
 #ifndef CLINGS_YML_H
 #define CLINGS_YML_H
 

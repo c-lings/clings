@@ -19,6 +19,7 @@ kata_status run_kata(const int kata_index, sized_string_t result_buffer) {
 
     // Create file path
     snprintf(file_path, MAX_PATH_LENGTH, "%s%s", kata_folder_path, kata_file_names[kata_index]);
+    // TODO: check if file exists
 
     // Create compile command
     snprintf(compile_command, MAX_PATH_LENGTH, COMPILE_COMMAND, file_path);

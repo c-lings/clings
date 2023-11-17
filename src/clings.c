@@ -4,8 +4,18 @@
 #include "execution/execution.h"
 #include "result_handler/result_handler.h"
 #include "katas/katas.h"
+#include "yaml/yml.h"
 
 int clings() {
+
+    KataListParsingResult kata_list_parsing_result = parse_kata_list("info.yml");
+    if (!kata_list_parsing_result.success) {
+        fprintf(stderr, "Failed to parse kata list: %s\n", kata_list_parsing_result.error_message);
+        return EXIT_FAILURE;
+    }
+    bool no_kata = kata_list_parsing_result.kata_list.len == 0;
+    if (no_kata) return EXIT_SUCCESS;
+
     sized_string_t result_buffer = new_sized_string(256);
 
     for (int i = 0; i < nb_kata_files; i++) {

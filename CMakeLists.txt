@@ -19,4 +19,7 @@ add_executable(clings main.c
         src/yaml/yml.c
 )
 
+file(COPY info.yml DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY katas DESTINATION ${CMAKE_BINARY_DIR})
+
 target_link_libraries(clings PRIVATE yaml)

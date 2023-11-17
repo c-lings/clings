@@ -10,15 +10,6 @@
 #include "katas/katas.h"
 #include "stdbool.h"
 
-typedef struct YamlParsingResult YamlParsingResult;
-struct YamlParsingResult {
-    bool success;
-    union {
-        KataList *kata_list;
-        char *error_message;
-    };
-};
-
-YamlParsingResult parse_kata_list(char *file_path);
+KataListParsingResult parse_kata_list(char *file_path);
 
 #endif //CLINGS_YML_H

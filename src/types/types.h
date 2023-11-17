@@ -25,6 +25,10 @@ typedef struct sized_string_t {
  */
 sized_string_t new_sized_string(size_t len);
 
+sized_string_t copy_str_to_sized_string(char * str, size_t len);
+
+sized_string_t empty_sized_string();
+
 /**
  * @brief Frees the memory allocated for a sized_string_t
  *

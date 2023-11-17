@@ -1,3 +1,4 @@
+#include <string.h>
 #include "types.h"
 
 sized_string_t new_sized_string(size_t len) {
@@ -17,4 +18,19 @@ void free_sized_string(sized_string_t * string) {
         string->str = NULL;
     }
     string->len = 0;
+}
+
+sized_string_t copy_str_to_sized_string(char * str, size_t len) {
+    sized_string_t s;
+    s.str = strncpy((char *)calloc(len, sizeof(char)), str, len);
+    s.len = len;
+    return s;
+}
+
+
+sized_string_t empty_sized_string() {
+    return (sized_string_t) {
+            .str = NULL,
+            .len = 0
+    };
 }

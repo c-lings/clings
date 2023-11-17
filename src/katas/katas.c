@@ -12,7 +12,7 @@ void free_kata_list(KataList *kata_list) {
 }
 
 void free_kata(struct Kata *kata) {
-    free_sized_string(kata->name);
-    free_sized_string(kata->path);
+    free_sized_string(&kata->name);
+    free_sized_string(&kata->path);
 }
 

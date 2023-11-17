@@ -89,13 +89,13 @@ Kata parse_kata(yaml_parser_t *parser, yaml_event_t *event) {
 
     yaml_parser_parse(parser, event);
     if(event->type != YAML_SCALAR_EVENT || strcmp((char *)event->data.scalar.value, "path") != 0) {
-        free_sized_string(kata.name);
+        free_sized_string(&kata.name);
         return no_kata();
     }
 
     yaml_parser_parse(parser, event);
     if(event->type != YAML_SCALAR_EVENT) {
-        free_sized_string(kata.name);
+        free_sized_string(&kata.name);
         return no_kata();
     }
     kata.path = copy_str_to_sized_string((char *)event->data.scalar.value, event->data.scalar.length);

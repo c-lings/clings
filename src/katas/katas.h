@@ -27,4 +27,8 @@ struct KataListParsingResult {
 
 void free_kata_list(KataList *kata_list);
 
+void push_kata_in_list(Kata kata, KataList *list);
+
+Kata no_kata();
+
 #endif //CLINGS_KATAS_H

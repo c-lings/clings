@@ -23,7 +23,7 @@ void free_sized_string(sized_string_t * string) {
 sized_string_t copy_str_to_sized_string(char * str, size_t len) {
     sized_string_t s;
     s.str = strncpy((char *)calloc(len, sizeof(char)), str, len);
-    s.len = len;
+    s.len = strlen(s.str);
     return s;
 }
 

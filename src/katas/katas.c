@@ -16,3 +16,15 @@ void free_kata(struct Kata *kata) {
     free_sized_string(&kata->path);
 }
 
+void push_kata_in_list(Kata kata, KataList *list) {
+    list->len++;
+    list->katas = (Kata *) realloc(list->katas, list->len * sizeof(Kata));
+    list->katas[list->len - 1] = kata;
+}
+
+Kata no_kata() {
+    return (Kata) {
+            .name = empty_sized_string(),
+            .path = empty_sized_string()
+    };
+}

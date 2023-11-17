@@ -1,7 +1,4 @@
 
-//
-// Created by Theo OMNES on 16/11/2023.
-//
 
 #include "stdbool.h"
 #include "yml.h"

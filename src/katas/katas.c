@@ -1,5 +1,4 @@
 #include "katas.h"
-#include "../types/types.h"
 
 
 void free_kata(struct Kata *kata);

@@ -1,7 +1,4 @@
 
-//
-// Created by Theo OMNES on 16/11/2023.
-//
 
 #ifndef CLINGS_YML_H
 #define CLINGS_YML_H

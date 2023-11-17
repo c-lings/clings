@@ -3,26 +3,21 @@
 #include <stdlib.h>
 #include "execution.h"
 
-kata_status run_kata(const int kata_index, sized_string_t result_buffer) {
-    // Validate index
-    if (
-            kata_index < 0 ||
-            kata_index >= nb_kata_files ||
-            !kata_file_names[kata_index]
-        ) {
-        strncpy(result_buffer.str, "Invalid kata index", result_buffer.len);
-        return KATA_ERROR;
-    }
-
+kata_status run_kata(const Kata kata, sized_string_t result_buffer) {
     char compile_command[MAX_PATH_LENGTH];
     char file_path[MAX_PATH_LENGTH];
 
-    // Create file path
-    snprintf(file_path, MAX_PATH_LENGTH, "%s%s", kata_folder_path, kata_file_names[kata_index]);
-    // TODO: check if file exists
+    // check if file exists
+    FILE* file = fopen(kata.path.str, "r");
+    if(file == NULL) {
+        strncpy(result_buffer.str, "File not found", result_buffer.len);
+        return KATA_ERROR;
+    }
+    fclose(file);
 
     // Create compile command
-    snprintf(compile_command, MAX_PATH_LENGTH, COMPILE_COMMAND, file_path);
+    printf("Compiling %s\n", kata.path.str);
+    snprintf(compile_command, MAX_PATH_LENGTH, COMPILE_COMMAND, kata.path.str);
 
     // Compile kata file
     if (system(compile_command) != 0) {

@@ -17,9 +17,10 @@ int clings() {
     if (no_kata) return EXIT_SUCCESS;
 
     sized_string_t result_buffer = new_sized_string(256);
+    KataList kata_list = kata_list_parsing_result.kata_list;
 
-    for (int i = 0; i < nb_kata_files; i++) {
-        kata_status result = run_kata(i, result_buffer);
+    for (int i = 0; i < kata_list.len; i++) {
+        kata_status result = run_kata(kata_list.katas[i], result_buffer);
         handle_kata_result(result, result_buffer);
 
         if (result != KATA_SUCCESS) {
@@ -30,6 +31,7 @@ int clings() {
     }
 
     free_sized_string(&result_buffer);
+    free_kata_list(&kata_list);
 
     return EXIT_SUCCESS;
 }

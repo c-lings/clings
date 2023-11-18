@@ -21,22 +21,10 @@ void free_key_value_parsed(key_value_parsed_t *key_value_parsed);
  * @brief Parse the next event from the parser and store it in the event pointer.
  * If the parsing failed, the parser and the event are deleted.
  */
-bool yaml_parse_next(yaml_parser_t *parser, yaml_event_t *event);
+bool yaml_parse_next(yaml_parser_t * parser, yaml_event_t * event);
 
-kata_list_parsing_result_t parse_kata_list(char *file_path) {
-    FILE *input = fopen(file_path, "rb");
-    if (input == NULL) {
-        return (kata_list_parsing_result_t) {
-                .success = false,
-                .error_message = "Failed to open yaml file."
-        };
-    }
-
-    yaml_parser_t parser;
+kata_list_parsing_result_t parse_kata_list(yaml_parser_t parser) {
     yaml_event_t event;
-    yaml_parser_initialize(&parser);
-
-    yaml_parser_set_input_file(&parser, input);
     kata_list_t kata_list = {.katas = NULL, .len = 0};
     while (true) {
         if (!yaml_parse_next(&parser, &event)) return kata_list_parsing_error();
@@ -50,8 +38,6 @@ kata_list_parsing_result_t parse_kata_list(char *file_path) {
             }
         }
     }
-
-    yaml_parser_delete(&parser);
     yaml_event_delete(&event);
     return (kata_list_parsing_result_t) {
             .success = true,
@@ -118,7 +104,6 @@ key_value_parsed_t parse_key_value(yaml_parser_t *parser, yaml_event_t *event) {
         return not_parsed;
     }
     sized_string_t value = copy_str_to_sized_string((char *) event->data.scalar.value, event->data.scalar.length);
-
 
     if (key.len == 0 || value.len == 0) {
         free_sized_string(&key);

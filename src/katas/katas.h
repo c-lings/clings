@@ -10,14 +10,14 @@ typedef struct kata {
 } kata_t;
 
 typedef struct kata_list {
-    kata_t * katas;
+    kata_t *katas;
     size_t len;
 } kata_list_t;
 
 typedef struct kata_list_parsing_result {
     bool success;
     union {
-      kata_list_t kata_list;
+        kata_list_t kata_list;
         char *error_message;
     };
 } kata_list_parsing_result_t;

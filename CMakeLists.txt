@@ -14,6 +14,7 @@ add_executable(clings main.c
         src/clings.c
         src/katas/katas.c
         src/yaml/yml.c
+        src/yaml/yaml_parser_factory.c
 )
 
 file(COPY info.yml DESTINATION ${CMAKE_BINARY_DIR})

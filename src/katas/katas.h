@@ -26,6 +26,6 @@ void free_kata_list(kata_list_t *kata_list);
 
 void push_kata_in_list(kata_t kata, kata_list_t *list);
 
-kata_t no_kata();
+kata_t no_kata(void);
 
 #endif //CLINGS_KATAS_H

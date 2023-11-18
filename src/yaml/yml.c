@@ -1,8 +1,7 @@
-
-
+#include <yaml.h>
 #include "stdbool.h"
-#include "yml.h"
-
+#include "types/types.h"
+#include "katas/katas.h"
 
 typedef struct key_value_parsed {
     sized_string_t key;
@@ -13,7 +12,7 @@ key_value_parsed_t parse_key_value(yaml_parser_t *parser, yaml_event_t *event);
 
 kata_t parse_kata(yaml_parser_t *parser, yaml_event_t *event);
 
-kata_list_parsing_result_t kata_list_parsing_error();
+kata_list_parsing_result_t kata_list_parsing_error(void);
 
 void free_key_value_parsed(key_value_parsed_t *key_value_parsed);
 
@@ -23,16 +22,16 @@ void free_key_value_parsed(key_value_parsed_t *key_value_parsed);
  */
 bool yaml_parse_next(yaml_parser_t * parser, yaml_event_t * event);
 
-kata_list_parsing_result_t parse_kata_list(yaml_parser_t parser) {
+kata_list_parsing_result_t parse_kata_list(yaml_parser_t * parser) {
     yaml_event_t event;
     kata_list_t kata_list = {.katas = NULL, .len = 0};
     while (true) {
-        if (!yaml_parse_next(&parser, &event)) return kata_list_parsing_error();
+        if (!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
         if (event.type == YAML_STREAM_END_EVENT) break;
 
         if (event.type == YAML_SEQUENCE_START_EVENT) {
             while (event.type != YAML_STREAM_END_EVENT && event.type != YAML_SEQUENCE_END_EVENT) {
-                kata_t kata = parse_kata(&parser, &event);
+                kata_t kata = parse_kata(parser, &event);
                 if (kata.name.len != 0 && kata.path.len != 0)
                     push_kata_in_list(kata, &kata_list);
             }
@@ -54,7 +53,7 @@ bool yaml_parse_next(yaml_parser_t *parser, yaml_event_t *event) {
     return success;
 }
 
-kata_list_parsing_result_t kata_list_parsing_error() {
+kata_list_parsing_result_t kata_list_parsing_error(void) {
     return (kata_list_parsing_result_t) {
             .success = false,
             .error_message = "Failed to parse file info.yml"

@@ -1,5 +1,5 @@
 #include "src/clings.h"
 
-int main() {
+int main(void) {
     return clings();
 }

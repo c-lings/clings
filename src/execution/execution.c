@@ -5,7 +5,6 @@
 
 kata_status run_kata(const kata_t kata, sized_string_t result_buffer) {
     char compile_command[MAX_PATH_LENGTH];
-    char file_path[MAX_PATH_LENGTH];
 
     // check if file exists
     FILE* file = fopen(kata.path.str, "r");

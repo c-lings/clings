@@ -18,6 +18,6 @@
  *         The structure contains a success flag and the parsed kata list.
  *         If an error occurs during parsing, the success flag will be false.
  */
-kata_list_parsing_result_t parse_kata_list(yaml_parser_t parser);
+kata_list_parsing_result_t parse_kata_list(yaml_parser_t *parser);
 
 #endif //CLINGS_YML_H

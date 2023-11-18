@@ -14,6 +14,6 @@
  * @param result_buffer String in which to write the result
  * @return The result status of the kata
  */
-kata_status run_kata(const Kata kata, sized_string_t result_buffer);
+kata_status run_kata(const kata_t kata, sized_string_t result_buffer);
 
 #endif //CLINGS_EXECUTION_H

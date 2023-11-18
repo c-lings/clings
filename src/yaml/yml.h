@@ -5,6 +5,6 @@
 #include "katas/katas.h"
 #include "stdbool.h"
 
-KataListParsingResult parse_kata_list(char *file_path);
+kata_list_parsing_result_t parse_kata_list(char * file_path);
 
 #endif //CLINGS_YML_H

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "execution.h"
 
-kata_status run_kata(const Kata kata, sized_string_t result_buffer) {
+kata_status run_kata(const kata_t kata, sized_string_t result_buffer) {
     char compile_command[MAX_PATH_LENGTH];
     char file_path[MAX_PATH_LENGTH];
 

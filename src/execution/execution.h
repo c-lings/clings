@@ -10,7 +10,7 @@
 /**
  * @brief Runs the kata at given index, and handles the result
  *
- * @param kata The index of the kata to run
+ * @param kata The kata to run (cf. katas.h)
  * @param result_buffer String in which to write the result
  * @return The result status of the kata
  */

@@ -15,7 +15,10 @@ add_executable(clings main.c
         src/katas/katas.c
 )
 
-file(COPY info.yml DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY katas DESTINATION ${CMAKE_BINARY_DIR})
+if(NOT ${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+    message(COPY)
+    file(COPY info.yml DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY katas DESTINATION ${CMAKE_BINARY_DIR})
+endif ()
 
 target_link_libraries(clings PUBLIC clings_yaml)

@@ -1,3 +1,4 @@
+
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -5,14 +6,27 @@
 #include <cmocka.h>
 
 
+#include "yaml_parser_factory.h"
 
-static void test_nothing(void **state) {
-    (void) state; /* unused */
+#define UNUSED(x) (void)(x)
+
+
+FILE *__wrap_fopen(const char * filename, const char * modes) {
+
+    return mock_ptr_type(FILE*);
+}
+
+
+static void test_mock(void **state) {
+    UNUSED(state);
+
+    yaml_parser_t p = parser_factory("test.yaml");
+    assert_int_equal(p.error, YAML_READER_ERROR);
 }
 
 int main(void) {
     const struct CMUnitTest tests[] = {
-            cmocka_unit_test(test_nothing),
+            cmocka_unit_test(test_mock),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

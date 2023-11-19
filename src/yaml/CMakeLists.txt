@@ -10,6 +10,11 @@ add_library(clings_yaml
 )
 target_link_libraries(clings_yaml PUBLIC yaml)
 
-add_executable(tests_clings_yaml yaml_test.c)
+add_executable(tests_clings_yaml yaml_test.c
+        yml.c
+        yaml_parser_factory.c
+        ../types/sized_string.c
+        ../katas/katas.c
+)
 add_test(NAME tests_clings_yaml COMMAND tests_clings_yaml)
-target_link_libraries(tests_clings_yaml PUBLIC cmocka::cmocka)
+target_link_libraries(tests_clings_yaml PRIVATE yaml cmocka::cmocka)

@@ -33,7 +33,7 @@ void test_parser_factory(void) {
 void test_parser_factory_with_bad_path(void) {
     yaml_parser_t parser = parser_factory("bad/path/file.yml");
     CU_ASSERT(parser.error == YAML_READER_ERROR);
-    CU_ASSERT_STRING_EQUAL(parser.problem, "Failed to open yaml file");
+    CU_ASSERT_STRING_EQUAL(parser.problem, "Failed to open yaml file.");
     yaml_parser_delete(&parser);
 }
 
@@ -56,6 +56,7 @@ int main(void) {
     /* Run all tests using the CUnit Basic interface */
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
+    int failures = (int) CU_get_number_of_failures();
     CU_cleanup_registry();
-    return CU_get_number_of_tests_run() == 0;
+    return failures;
 }

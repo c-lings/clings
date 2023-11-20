@@ -4,6 +4,8 @@ project(clings C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Werror -pedantic -Wno-unused-parameter")
 
+include(CTest)
+
 include_directories(src)
 add_subdirectory(src/yaml)
 

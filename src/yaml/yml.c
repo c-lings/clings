@@ -16,6 +16,8 @@ kata_list_parsing_result_t kata_list_parsing_error(void);
 
 void free_key_value_parsed(key_value_parsed_t *key_value_parsed);
 
+kata_list_parsing_result_t parse_kata_list_from_sequence(yaml_parser_t *parser, yaml_event_t *event);
+
 /**
  * @brief Parse the next event from the parser and store it in the event pointer.
  * If the parsing failed, the parser and the event are deleted.
@@ -24,20 +26,39 @@ bool yaml_parse_next(yaml_parser_t * parser, yaml_event_t * event);
 
 kata_list_parsing_result_t parse_kata_list(yaml_parser_t * parser) {
     yaml_event_t event;
-    kata_list_t kata_list = {.katas = NULL, .len = 0};
+
     while (true) {
         if (!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
         if (event.type == YAML_STREAM_END_EVENT) break;
-
-        if (event.type == YAML_SEQUENCE_START_EVENT) {
-            while (event.type != YAML_STREAM_END_EVENT && event.type != YAML_SEQUENCE_END_EVENT) {
-                kata_t kata = parse_kata(parser, &event);
-                if (kata.name.len != 0 && kata.path.len != 0)
-                    push_kata_in_list(kata, &kata_list);
-            }
+        if (event.type == YAML_MAPPING_START_EVENT) {
+            if(!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
+            if(event.type != YAML_SCALAR_EVENT) return kata_list_parsing_error();
+            if(strcmp((char *) event.data.scalar.value, "exercises") != 0) continue;
+            if(!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
+            return parse_kata_list_from_sequence(parser, &event);
         }
     }
     yaml_event_delete(&event);
+    return (kata_list_parsing_result_t) {
+            .success = false,
+            .error_message = "Exercises not found."
+    };
+}
+
+kata_list_parsing_result_t parse_kata_list_from_sequence(yaml_parser_t *parser, yaml_event_t *event) {
+    kata_list_t kata_list = {.katas = NULL, .len = 0};
+    if (event->type == YAML_SEQUENCE_START_EVENT) {
+        while (event->type != YAML_STREAM_END_EVENT) {
+            kata_t kata = parse_kata(parser, event);
+            if(event->type == YAML_SEQUENCE_END_EVENT) break;
+            if (kata.name.len == 0 || kata.path.len == 0) {
+                yaml_event_delete(event);
+                free_kata_list(&kata_list);
+                return kata_list_parsing_error();
+            }
+            push_kata_in_list(kata, &kata_list);
+        }
+    }
     return (kata_list_parsing_result_t) {
             .success = true,
             .kata_list = kata_list
@@ -56,7 +77,7 @@ bool yaml_parse_next(yaml_parser_t *parser, yaml_event_t *event) {
 kata_list_parsing_result_t kata_list_parsing_error(void) {
     return (kata_list_parsing_result_t) {
             .success = false,
-            .error_message = "Failed to parse file info.yml"
+            .error_message = "Failed to parse file yaml."
     };
 }
 

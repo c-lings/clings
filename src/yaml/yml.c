@@ -33,16 +33,16 @@ kata_list_parsing_result_t parse_kata_list(yaml_parser_t * parser) {
         if (event.type == YAML_MAPPING_START_EVENT) {
             if(!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
             if(event.type != YAML_SCALAR_EVENT) return kata_list_parsing_error();
-            if(strcmp((char *) event.data.scalar.value, "exercises") != 0) continue;
+            if(strcmp((char *) event.data.scalar.value, "exercises") != 0) return (kata_list_parsing_result_t) {
+                .success = false,
+                .error_message = "Exercises not found."
+            };
             if(!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
             return parse_kata_list_from_sequence(parser, &event);
         }
     }
     yaml_event_delete(&event);
-    return (kata_list_parsing_result_t) {
-            .success = false,
-            .error_message = "Exercises not found."
-    };
+    return kata_list_parsing_error();
 }
 
 kata_list_parsing_result_t parse_kata_list_from_sequence(yaml_parser_t *parser, yaml_event_t *event) {

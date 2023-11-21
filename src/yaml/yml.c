@@ -27,10 +27,10 @@ kata_list_parsing_result_t parse_kata_list(yaml_parser_t * parser) {
     kata_list_t kata_list = {.katas = NULL, .len = 0};
     while (true) {
         if (!yaml_parse_next(parser, &event)) return kata_list_parsing_error();
-        if (event.type == YAML_STREAM_END_EVENT) break;
+        if (event.type == YAML_NO_EVENT) break;
 
         if (event.type == YAML_SEQUENCE_START_EVENT) {
-            while (event.type != YAML_STREAM_END_EVENT && event.type != YAML_SEQUENCE_END_EVENT) {
+            while (event.type != YAML_NO_EVENT && event.type != YAML_SEQUENCE_END_EVENT) {
                 kata_t kata = parse_kata(parser, &event);
                 if (kata.name.len != 0 && kata.path.len != 0)
                     push_kata_in_list(kata, &kata_list);

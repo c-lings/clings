@@ -8,9 +8,6 @@ exercises:
   - name: compilation error
     path: katas/compilation_error.c
 
-  - name: compilation error
-    path: katas/compilation_error.c
-
   - name: run error
     path: katas/run_error.c
 

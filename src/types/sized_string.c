@@ -2,14 +2,14 @@
 #include "types.h"
 
 sized_string_t new_sized_string(size_t len) {
-    sized_string_t s;
-    s.str = (char *)calloc(len, sizeof(char));
-    if (s.str) {
-        s.len = len;
+    sized_string_t string;
+    string.str = (char *)calloc(len, sizeof(char));
+    if (string.str) {
+        string.len = len;
     } else {
-        s.len = 0;
+        string.len = 0;
     }
-    return s;
+    return string;
 }
 
 void free_sized_string(sized_string_t * string) {
@@ -21,10 +21,10 @@ void free_sized_string(sized_string_t * string) {
 }
 
 sized_string_t copy_str_to_sized_string(char * str, size_t len) {
-    sized_string_t s;
-    s.str = strncpy((char *)calloc(len, sizeof(char)), str, len);
-    s.len = strlen(s.str);
-    return s;
+    sized_string_t string;
+    string.str = strncpy((char *)calloc(len, sizeof(char)), str, len);
+    string.len = strlen(string.str);
+    return string;
 }
 
 

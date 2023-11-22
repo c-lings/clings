@@ -19,8 +19,22 @@ kata_status run_kata(const kata_t kata, sized_string_t result_buffer) {
     snprintf(compile_command, MAX_PATH_LENGTH, COMPILE_COMMAND, kata.path.str);
 
     // Compile kata file
-    if (system(compile_command) != 0) {
-        strncpy(result_buffer.str, "Compilation error", result_buffer.len);
+	FILE *cmd_fp = popen(compile_command, "r");
+	if (cmd_fp == NULL)
+	{
+		fprintf(stderr, "[Error] Couldn't execute compile command");
+		exit(EXIT_FAILURE);
+	}
+
+
+	char buffer[4096];
+	while (fgets(buffer, 4096, cmd_fp) != NULL)
+		printf("%s\n", buffer);
+
+	int compile_status = pclose(cmd_fp);
+
+    if (compile_status != 0) {
+		strncpy(result_buffer.str, "Compilation error", result_buffer.len);
         return KATA_COMPILATION_FAILURE;
     }
 
@@ -36,10 +50,16 @@ kata_status run_kata(const kata_t kata, sized_string_t result_buffer) {
     int status = pclose(fp);
 
     // Check execution status
-    if (status != 0) {
+	switch (status)
+	{
+	case EXIT_FAILURE:
         strncpy(result_buffer.str, "Execution error", result_buffer.len);
         return KATA_EXECUTION_FAILURE;
-    }
 
-    return KATA_SUCCESS;
+	case EXIT_SUCCESS:
+    	return KATA_SUCCESS;
+
+	default:
+		return KATA_ERROR;
+	}
 }

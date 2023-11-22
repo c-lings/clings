@@ -1,3 +1,6 @@
 .idea
 cmake-build-debug
 Testing
+.vscode
+build
+vcpkg

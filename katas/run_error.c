@@ -1,9 +1,12 @@
 #include <stdlib.h>
+#include <stdio.h>
 
-int main() {
-    int a[2] = {0, 1};
+int main()
+{
+    char* str;
 
-    int b = a[2];
+    str = "abc";
 
+    str[0] = 'd';
     return EXIT_SUCCESS;
 }

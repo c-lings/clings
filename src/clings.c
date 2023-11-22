@@ -4,8 +4,11 @@
 #include "execution/execution.h"
 #include "result_handler/result_handler.h"
 #include "katas/katas.h"
+
 #include "yaml/yml.h"
 #include "yaml/yaml_parser_factory.h"
+
+#define MAX_BUFFER_SIZE 2048
 
 int clings(void) {
     yaml_parser_t parser = parser_factory("info.yml");
@@ -26,7 +29,7 @@ int clings(void) {
     bool no_kata = kata_list.len == 0;
     if (no_kata) return EXIT_SUCCESS;
 
-    sized_string_t result_buffer = new_sized_string(256);
+    sized_string_t result_buffer = new_sized_string(MAX_BUFFER_SIZE);
 
     for (size_t i = 0; i < kata_list.len; i++) {
         kata_status result = run_kata(kata_list.katas[i], result_buffer);
